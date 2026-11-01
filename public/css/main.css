@@ -1,0 +1,196 @@
+:root {
+    --teal: #128293;
+    --orange: #ef5a42;
+    --orange-dark: #d44833;
+    --bg-light: #f4f7f6;
+    --text-dark: #333333;
+    --white: #ffffff;
+    --footer-bg: #1c2d3d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Navegación */
+nav {
+    background: var(--white);
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+nav a:hover {
+    color: var(--teal);
+}
+
+/* Estructura Principal */
+main {
+    width: 100%;
+    flex: 1;
+}
+
+.home-page section {
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+/* Banner Principal */
+.hero-banner {
+    background-color: var(--teal);
+    color: var(--white);
+}
+
+.hero-banner h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--white);
+}
+
+.hero-banner p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-primary {
+    background-color: var(--orange);
+    color: var(--white);
+    padding: 0.8rem 2.5rem;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: var(--orange-dark);
+}
+
+/* Sección de Estadísticas */
+.stats-section {
+    background-color: var(--white);
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+}
+
+.stat-item h3 {
+    color: var(--teal);
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Sección de Información dividida */
+.info-section {
+    background-color: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+    padding: 5rem 2rem;
+    flex-wrap: wrap;
+    text-align: left;
+}
+
+.info-section img {
+    max-width: 300px;
+    width: 100%;
+    border-radius: 50%;
+}
+
+.info-text {
+    max-width: 500px;
+}
+
+.info-text h2 {
+    color: var(--teal);
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+/* Estilos para las otras páginas (Organizations, Projects, Categories) */
+main>h1 {
+    text-align: center;
+    margin: 3rem 0 1.5rem;
+    color: var(--teal);
+}
+
+main>p {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+main>ul {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    padding: 0 2rem;
+    line-height: 1.8;
+}
+
+main>ul li {
+    margin-bottom: 1rem;
+}
+
+main>ul li img {
+    max-width: 60px;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+/* Pie de página */
+footer {
+    background-color: var(--footer-bg);
+    color: var(--white);
+    text-align: center;
+    padding: 2.5rem;
+    margin-top: auto;
+}
+
+/* Diseño Responsivo para Móviles */
+@media (max-width: 768px) {
+    .info-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+
+    .stats-section {
+        gap: 2rem;
+        flex-direction: column;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+}
