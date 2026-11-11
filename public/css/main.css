@@ -166,6 +166,34 @@ main>ul li img {
     margin-right: 15px;
 }
 
+/* Category Tags */
+.category-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 1rem auto;
+}
+
+.category-tags li a {
+    display: inline-block;
+    background-color: var(--teal);
+    color: var(--white);
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.category-tags li a:hover,
+.category-tags li a:focus {
+    background-color: var(--navy);
+    color: var(--white);
+}
+
 /* Pie de página */
 footer {
     background-color: var(--footer-bg);

@@ -3,20 +3,35 @@ import { getAllOrganizations, getOrganizationDetails } from '../models/organizat
 import { getProjectsByOrganizationId } from '../models/projects.js';
 
 // Define any controller functions
-const showOrganizationsPage = async (req, res) => {
-    const organizations = await getAllOrganizations();
-    const title = 'Our Partner Organizations';
+const showOrganizationsPage = async (req, res, next) => {
+    try {
+        const organizations = await getAllOrganizations();
+        const title = 'Our Partner Organizations';
 
-    res.render('organizations', { title, organizations });
+        res.render('organizations', { title, organizations });
+    } catch (err) {
+        next(err);
+    }
 };
 
-const showOrganizationDetailsPage = async (req, res) => {
-    const organizationId = req.params.id;
-    const organizationDetails = await getOrganizationDetails(organizationId);
-    const projects = await getProjectsByOrganizationId(organizationId);
-    const title = 'Organization Details';
+const showOrganizationDetailsPage = async (req, res, next) => {
+    try {
+        const organizationId = req.params.id;
+        const organizationDetails = await getOrganizationDetails(organizationId);
 
-    res.render('organization', { title, organizationDetails, projects });
+        if (!organizationDetails) {
+            const err = new Error('Organization Not Found');
+            err.status = 404;
+            return next(err);
+        }
+
+        const projects = await getProjectsByOrganizationId(organizationId);
+        const title = organizationDetails.name;
+
+        res.render('organization', { title, organizationDetails, projects });
+    } catch (err) {
+        next(err);
+    }
 };
 
 // Export any controller functions
