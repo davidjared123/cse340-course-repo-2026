@@ -1,8 +1,14 @@
-// Import any needed model functions
-import { getAllCategories, getCategoryById } from '../models/categories.js';
-import { getProjectsByCategoryId } from '../models/projects.js';
+import { 
+    getAllCategories, 
+    getCategoryById, 
+    getCategoriesByProjectId,
+    updateCategoryAssignments 
+} from '../models/categories.js';
+import { 
+    getProjectsByCategoryId,
+    getProjectDetails 
+} from '../models/projects.js';
 
-// Define any controller functions
 const showCategoriesPage = async (req, res, next) => {
     try {
         const categories = await getAllCategories();
@@ -34,5 +40,49 @@ const showCategoryDetailsPage = async (req, res, next) => {
     }
 };
 
-// Export any controller functions
-export { showCategoriesPage, showCategoryDetailsPage };
+const showAssignCategoriesForm = async (req, res, next) => {
+    try {
+        const projectId = req.params.projectId;
+        const project = await getProjectDetails(projectId);
+
+        if (!project) {
+            const err = new Error('Project Not Found');
+            err.status = 404;
+            return next(err);
+        }
+
+        const allCategories = await getAllCategories();
+        const assignedCategories = await getCategoriesByProjectId(projectId);
+        const title = 'Assign Categories to Project';
+
+        res.render('assign-categories', {
+            title,
+            project,
+            allCategories,
+            assignedCategories
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+const processAssignCategoriesForm = async (req, res, next) => {
+    try {
+        const projectId = req.params.projectId;
+        const { categoryIds } = req.body;
+
+        await updateCategoryAssignments(projectId, categoryIds);
+
+        req.flash('success', 'Categories updated successfully!');
+        res.redirect(`/project/${projectId}`);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export { 
+    showCategoriesPage, 
+    showCategoryDetailsPage,
+    showAssignCategoriesForm,
+    processAssignCategoriesForm
+};
