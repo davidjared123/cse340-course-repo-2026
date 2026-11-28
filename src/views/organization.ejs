@@ -5,7 +5,9 @@
         <p><%= organizationDetails.description %></p>
         <p><strong>Contact:</strong> <a href="mailto:<%= organizationDetails.contact_email %>"><%= organizationDetails.contact_email %></a></p>
 
-        <p><a href="/edit-organization/<%= organizationDetails.organization_id %>" class="action-btn">Edit Organization</a></p>
+        <% if (typeof user !== 'undefined' && user && user.role_name === 'admin') { %>
+            <p><a href="/edit-organization/<%= organizationDetails.organization_id %>" class="action-btn">Edit Organization</a></p>
+        <% } %>
 
         <h3>Associated Service Projects</h3>
         <% if (projects && projects.length > 0) { %>

@@ -4,6 +4,8 @@
 -- ========================================
 
 -- Drop tables if they exist (in reverse order of dependencies)
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS roles CASCADE;
 DROP TABLE IF EXISTS project_category CASCADE;
 DROP TABLE IF EXISTS category CASCADE;
 DROP TABLE IF EXISTS project CASCADE;
@@ -50,6 +52,27 @@ CREATE TABLE project_category (
     PRIMARY KEY (project_id, category_id),
     FOREIGN KEY (project_id) REFERENCES project (project_id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES category (category_id) ON DELETE CASCADE
+);
+
+-- ========================================
+-- Roles Table (Week 05 Authentication)
+-- ========================================
+CREATE TABLE roles (
+    role_id SERIAL PRIMARY KEY,
+    role_name VARCHAR(50) UNIQUE NOT NULL,
+    role_description TEXT
+);
+
+-- ========================================
+-- Users Table (Week 05 Authentication)
+-- ========================================
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role_id INTEGER REFERENCES roles(role_id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ========================================
@@ -129,3 +152,19 @@ INSERT INTO project_category (project_id, category_id) VALUES
 (14, 3), -- After-School STEM Mentoring -> Education & Youth
 (15, 2), -- Hygiene Care Kits Packing -> Community Support & Food
 (15, 5); -- Hygiene Care Kits Packing -> Health & Senior Care
+
+-- ========================================
+-- Insert Sample Data: Roles
+-- ========================================
+INSERT INTO roles (role_name, role_description) VALUES
+('user', 'Standard user with basic access'),
+('admin', 'Administrator with full system access');
+
+-- ========================================
+-- Insert Sample Data: Admin User
+-- Email: admin@example.com
+-- Password: cse340!
+-- ========================================
+INSERT INTO users (name, email, password_hash, role_id) VALUES
+('System Administrator', 'admin@example.com', '$2b$10$4i.rnY/LWjcRa7aBs3Q4iuHkJ7teBomXjnG/r4ZTkUFE3NgueF.yi', (SELECT role_id FROM roles WHERE role_name = 'admin'));
+

@@ -5,6 +5,9 @@
                 <h2>Welcome to the CSE 340 Service Network!</h2>
                 <p>Our mission is to promote service across the world by connecting volunteers with service
                     opportunities in their community.</p>
+                <% if (typeof isLoggedIn !== 'undefined' && isLoggedIn && user) { %>
+                    <p>Welcome back, <strong><%= user.name %></strong>! Visit your <a href="/dashboard">Dashboard</a>.</p>
+                <% } %>
                 <a href="/projects" class="btn-primary">¡Inscribirme!</a>
             </div>
         </section>
