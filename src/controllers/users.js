@@ -3,6 +3,7 @@ import { body, validationResult } from 'express-validator';
 import { 
     createUser, 
     findUserByEmail, 
+    getAllUsers,
     authenticateUser 
 } from '../models/users.js';
 
@@ -135,10 +136,25 @@ const showDashboard = (req, res) => {
 };
 
 /**
+ * Display all registered users (admin only)
+ */
+const showUsersPage = async (req, res, next) => {
+    try {
+        const users = await getAllUsers();
+        res.render('users', { 
+            title: 'Registered Users',
+            users 
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+/**
  * Middleware to require authenticated user
  */
 const requireLogin = (req, res, next) => {
-    if (!req.session.user) {
+    if (!req.session || !req.session.user) {
         req.flash('error', 'You must be logged in to view that page.');
         return res.redirect('/login');
     }
@@ -152,13 +168,13 @@ const requireLogin = (req, res, next) => {
  */
 const requireRole = (role) => {
     return (req, res, next) => {
-        if (!req.session.user) {
+        if (!req.session || !req.session.user) {
             req.flash('error', 'You must be logged in to view that page.');
             return res.redirect('/login');
         }
         if (req.session.user.role_name !== role) {
             req.flash('error', 'You are not authorized to view that page.');
-            return res.redirect('/');
+            return res.redirect('/dashboard');
         }
         next();
     };
@@ -173,6 +189,7 @@ export {
     processLoginForm,
     processLogout,
     showDashboard,
+    showUsersPage,
     requireLogin,
     requireRole
 };

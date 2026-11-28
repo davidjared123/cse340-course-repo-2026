@@ -1,0 +1,35 @@
+<%- include('partials/header') %>
+<main>
+    <h1><%= title %></h1>
+    <p>Below is the list of all registered users in the system and their assigned roles.</p>
+
+    <div class="table-responsive">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Email (Username)</th>
+                    <th>Role</th>
+                    <th>Date Registered</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(registeredUser => { %>
+                    <tr>
+                        <td><%= registeredUser.user_id %></td>
+                        <td><strong><%= registeredUser.name %></strong></td>
+                        <td><%= registeredUser.email %></td>
+                        <td>
+                            <span class="badge badge-<%= registeredUser.role_name %>"><%= registeredUser.role_name %></span>
+                        </td>
+                        <td><%= new Date(registeredUser.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }) %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <p style="margin-top: 1.5rem;"><a href="/dashboard" class="action-btn">Back to Dashboard</a></p>
+</main>
+<%- include('partials/footer') %>

@@ -85,10 +85,26 @@ const authenticateUser = async (email, password) => {
     return safeUser;
 };
 
+/**
+ * Retrieves all registered users with their roles (excluding password hashes)
+ * @returns {Promise<Array>} Array of safe user objects
+ */
+const getAllUsers = async () => {
+    const query = `
+        SELECT u.user_id, u.name, u.email, r.role_name, u.created_at
+        FROM public.users u
+        JOIN public.roles r ON u.role_id = r.role_id
+        ORDER BY u.name ASC;
+    `;
+    const result = await db.query(query);
+    return result.rows;
+};
+
 export {
     createUser,
     findUserByEmail,
     findUserById,
+    getAllUsers,
     verifyPassword,
     authenticateUser
 };

@@ -4,6 +4,15 @@
     <p>Welcome, <strong><%= user.name %></strong>!</p>
     <p>Email: <strong><%= user.email %></strong></p>
     <p>Role: <strong><%= user.role_name %></strong></p>
-    <p><a href="/logout">Log Out</a></p>
+
+    <% if (typeof user !== 'undefined' && user && user.role_name === 'admin') { %>
+        <section class="admin-section" style="margin: 1.5rem 0; padding: 1.5rem; background: var(--bg-light); border-radius: 8px; border-left: 4px solid var(--teal);">
+            <h2>Administrator Panel</h2>
+            <p>You have administrative privileges. You can manage registered users below:</p>
+            <p style="margin-top: 1rem;"><a href="/users" class="action-btn">View Registered Users</a></p>
+        </section>
+    <% } %>
+
+    <p style="margin-top: 1rem;"><a href="/logout">Log Out</a></p>
 </main>
 <%- include('partials/footer') %>
